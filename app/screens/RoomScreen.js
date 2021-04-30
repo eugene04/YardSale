@@ -14,24 +14,24 @@ import firebase from "../utils/Firebase";
 
 export default function RoomScreen({ route }) {
   //useStatsBar("light-content");
+  
 
   const [messages, setMessages] = useState([]);
   //const { item } = route.params;
-  const { _id } = route.params;
+  const { itemId } = route.params;
+  const { myChatId } = route.params;
   const { user } = useContext(AuthContext);
   const currentUser = user.toJSON();
   const db = firebase.firestore();
-  useEffect(() => {
-    console.log({ user });
-  }, []);
 
+  console.log(myChatId);
   async function handleSend(messages) {
     const text = messages[0].text;
 
     db.collection("item")
-      .doc(_id)
+      .doc(itemId)
       .collection("THREADS")
-      .doc()
+      .doc(myChatId)
       .collection("MESSAGES")
       .add({
         text,
@@ -44,9 +44,9 @@ export default function RoomScreen({ route }) {
 
     await db
       .collection("item")
-      .doc(_id)
+      .doc(itemId)
       .collection("THREADS")
-      .doc()
+      .doc(myChatId)
       .set(
         {
           latestMessage: {
@@ -61,9 +61,9 @@ export default function RoomScreen({ route }) {
   useEffect(() => {
     const messagesListener = db
       .collection("item")
-      .doc(_id)
+      .doc(itemId)
       .collection("THREADS")
-      .doc()
+      .doc(myChatId)
       .collection("MESSAGES")
       .orderBy("createdAt", "desc")
       .onSnapshot((querySnapshot) => {

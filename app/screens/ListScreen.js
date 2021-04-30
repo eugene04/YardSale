@@ -55,8 +55,9 @@ export default function ListScreen({ navigation }) {
 
   useEffect(() => {
     fetchProducts();
+    //console.log(product);
   }, []);
-
+  //console.log(product);
   const formatter = new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
